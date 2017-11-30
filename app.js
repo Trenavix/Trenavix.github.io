@@ -204,7 +204,8 @@ var InitDemo = function () {
 	gl.uniformMatrix4fv(matProjUniformLocation, gl.FALSE, projMatrix);
 
 	var xRotationMatrix = new Float32Array(16);
-	var yRotationMatrix = new Float32Array(16);
+    var yRotationMatrix = new Float32Array(16);
+    var yScaleMatrix = new Float32Array(16);
 
 	//
 	// Main render loop
@@ -216,8 +217,8 @@ var InitDemo = function () {
 		angle = 10*Math.sin(performance.now() / 1000 / 6 * 2 * Math.PI);
 		mat4.rotate(yRotationMatrix, identityMatrix, angle, [0, 1, 0]);
         mat4.rotate(xRotationMatrix, identityMatrix, 0, [1, 0, 0]);
-        //mat4.scale(yRotationMatrix, identityMatrix, 1, [1,1,1]);
         mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
+        mat4.scale(worldMatrix, worldMatrix, [1,Math.abs(angle*0.2),1]);
         canvas.clientWidth = window.innerWidth;
         canvas.clientHeight = window.innerHeight;
         gl.viewport(0, 0, window.innerWidth, window.innerHeight);

@@ -27,8 +27,10 @@ var fragmentShaderText =
 '}'
 ].join('\n');
 
-var gl = canvas.getContext('webgl');
 var canvas = document.getElementById('game-surface');
+
+var gl = canvas.getContext('webgl');
+
 
 var resizeCanvas = function () 
 {

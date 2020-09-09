@@ -30,12 +30,6 @@ var fragmentShaderText =
 var gl = canvas.getContext('webgl');
 var canvas = document.getElementById('game-surface');
 
-function initialise()
-{
-	window.addEventListener('resize', resizeCanvas, false);
-	resizeCanvas();
-}
-
 var resizeCanvas = function () 
 {
 	canvas.width = window.innerWidth;
@@ -45,7 +39,8 @@ var resizeCanvas = function ()
 }
 var InitDemo = function () 
 {
-	initialise();
+	window.addEventListener('resize', resizeCanvas, false);
+	resizeCanvas();
 	console.log('This is working');
 
 	

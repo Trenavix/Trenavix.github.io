@@ -1,3 +1,4 @@
+
 var vertexShaderText = 
 [
 'precision mediump float;',
@@ -26,18 +27,20 @@ var fragmentShaderText =
 '  gl_FragColor = vec4(fragColor, 1.0);',
 '}'
 ].join('\n');
-
-var gl;
-
+var canvas = document.getElementById('game-surface');
+var gl = canvas.getContext('webgl');
+var resizeCanvas = function ()
+{
+  canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+}
 var InitDemo = function () {
 	console.log('This is working');
-
-	var canvas = document.getElementById('game-surface');
-	gl = canvas.getContext('webgl');
-
+window.addEventListener('resize', resizeCanvas, false);
+resizeCanvas();
 	if (!gl) {
 		console.log('WebGL not supported, falling back on experimental-webgl');
-		gl = canvas.getContext('experimental-webgl');
+		
 	}
 
 	if (!gl) {
@@ -232,3 +235,4 @@ var InitDemo = function () {
 	};
 	requestAnimationFrame(loop);
 };
+

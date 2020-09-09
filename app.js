@@ -27,7 +27,7 @@ var fragmentShaderText =
 '}'
 ].join('\n');
 
-var gl;
+var gl = gl = canvas.getContext('webgl');
 
 function initialise()
 {
@@ -43,8 +43,8 @@ function redraw()
 }
 var resizeCanvas = function () 
 {
-	htmlCanvas.width = window.innerWidth;
-    htmlCanvas.height = window.innerHeight;
+	canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 	gl.viewport(0, 0, canvas.innerWidth, canvas.innerHeight);
     redraw();
 	//todo
@@ -55,7 +55,7 @@ var InitDemo = function ()
 	console.log('This is working');
 
 	var canvas = document.getElementById('game-surface');
-	gl = canvas.getContext('webgl');
+	
 
 	if (!gl) {
 		console.log('WebGL not supported, falling back on experimental-webgl');

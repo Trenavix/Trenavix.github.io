@@ -158,35 +158,7 @@ resizeCanvas();
 		22, 20, 23
 	];
 
-	var boxVertexBufferObject = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, boxVertexBufferObject);
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(boxVertices), gl.STATIC_DRAW);
-
-	var boxIndexBufferObject = gl.createBuffer();
-	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, boxIndexBufferObject);
-	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(boxIndices), gl.STATIC_DRAW);
-
-	var positionAttribLocation = gl.getAttribLocation(program, 'vertPosition');
-	var colorAttribLocation = gl.getAttribLocation(program, 'vertColor');
-	gl.vertexAttribPointer(
-		positionAttribLocation, // Attribute location
-		3, // Number of elements per attribute
-		gl.FLOAT, // Type of elements
-		gl.FALSE,
-		6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
-		0 // Offset from the beginning of a single vertex to this attribute
-	);
-	gl.vertexAttribPointer(
-		colorAttribLocation, // Attribute location
-		3, // Number of elements per attribute
-		gl.FLOAT, // Type of elements
-		gl.FALSE,
-		6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
-		3 * Float32Array.BYTES_PER_ELEMENT // Offset from the beginning of a single vertex to this attribute
-	);
-
-	gl.enableVertexAttribArray(positionAttribLocation);
-	gl.enableVertexAttribArray(colorAttribLocation);
+	
 
 	// Tell OpenGL state machine which program should be active.
 	gl.useProgram(program);
@@ -216,7 +188,45 @@ resizeCanvas();
 	var identityMatrix = new Float32Array(16);
 	mat4.identity(identityMatrix);
 	var angle = 0;
-	var loop = function () {
+	var loop = function () 
+	{
+    var colour = Math.abs(Math.cos(performance.now() / 1000 / 6 *2* Math.PI))
+		for(var i = 0; i < boxVertices.length; i+=6)
+		{
+			if (boxVertices[i+1] > 0) {
+       boxVertices[i+5] = colour;
+        boxVertices[i+3] = colour;
+      }
+		}
+		var boxVertexBufferObject = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, boxVertexBufferObject);
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(boxVertices), gl.STATIC_DRAW);
+
+	var boxIndexBufferObject = gl.createBuffer();
+	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, boxIndexBufferObject);
+	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(boxIndices), gl.STATIC_DRAW);
+
+	var positionAttribLocation = gl.getAttribLocation(program, 'vertPosition');
+	var colorAttribLocation = gl.getAttribLocation(program, 'vertColor');
+	gl.vertexAttribPointer(
+		positionAttribLocation, // Attribute location
+		3, // Number of elements per attribute
+		gl.FLOAT, // Type of elements
+		gl.FALSE,
+		6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+		0 // Offset from the beginning of a single vertex to this attribute
+	);
+	gl.vertexAttribPointer(
+		colorAttribLocation, // Attribute location
+		3, // Number of elements per attribute
+		gl.FLOAT, // Type of elements
+		gl.FALSE,
+		6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+		3 * Float32Array.BYTES_PER_ELEMENT // Offset from the beginning of a single vertex to this attribute
+	);
+
+	gl.enableVertexAttribArray(positionAttribLocation);
+	gl.enableVertexAttribArray(colorAttribLocation);
 		angle = 10*Math.sin(performance.now() / 1000 / 6 * 2 * Math.PI);
 		mat4.rotate(yRotationMatrix, identityMatrix, angle, [0, 1, 0]);
         mat4.rotate(xRotationMatrix, identityMatrix, 0, [1, 0, 0]);

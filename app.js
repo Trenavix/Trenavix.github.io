@@ -29,7 +29,12 @@ var fragmentShaderText =
 
 var gl;
 
-var InitDemo = function () {
+var resizeCanvas = function () 
+{
+	//todo
+}
+var InitDemo = function () 
+{
 	console.log('This is working');
 
 	var canvas = document.getElementById('game-surface');
@@ -219,8 +224,8 @@ var InitDemo = function () {
         mat4.rotate(xRotationMatrix, identityMatrix, 0, [1, 0, 0]);
         mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
         mat4.scale(worldMatrix, worldMatrix, [1,Math.abs(angle*0.2),1]);
-        //canvas.clientWidth = window.innerWidth;
-        //canvas.clientHeight = window.innerHeight;
+        canvas.clientWidth = window.innerWidth;
+        canvas.clientHeight = window.innerHeight;
         gl.viewport(0, 0, canvas.innerWidth, canvas.innerHeight);
 		gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
 

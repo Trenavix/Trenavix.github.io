@@ -29,12 +29,28 @@ var fragmentShaderText =
 
 var gl;
 
+function initialise()
+{
+	window.addEventListener('resize', resizeCanvas, false);
+	resizeCanvas();
+}
+
+function redraw() 
+{
+	context.strokeStyle = 'blue';
+	context.lineWidth = '5';
+	context.strokeRect(0, 0, window.innerWidth, window.innerHeight);
+}
 var resizeCanvas = function () 
 {
+	htmlCanvas.width = window.innerWidth;
+    htmlCanvas.height = window.innerHeight;
+    redraw();
 	//todo
 }
 var InitDemo = function () 
 {
+	initialise();
 	console.log('This is working');
 
 	var canvas = document.getElementById('game-surface');

@@ -27,7 +27,8 @@ var fragmentShaderText =
 '}'
 ].join('\n');
 
-var gl = gl = canvas.getContext('webgl');
+var gl = canvas.getContext('webgl');
+var canvas = document.getElementById('game-surface');
 
 function initialise()
 {
@@ -35,18 +36,11 @@ function initialise()
 	resizeCanvas();
 }
 
-function redraw() 
-{
-	context.strokeStyle = 'blue';
-	context.lineWidth = '5';
-	context.strokeRect(0, 0, window.innerWidth, window.innerHeight);
-}
 var resizeCanvas = function () 
 {
 	canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 	gl.viewport(0, 0, canvas.innerWidth, canvas.innerHeight);
-    redraw();
 	//todo
 }
 var InitDemo = function () 
@@ -54,7 +48,6 @@ var InitDemo = function ()
 	initialise();
 	console.log('This is working');
 
-	var canvas = document.getElementById('game-surface');
 	
 
 	if (!gl) {

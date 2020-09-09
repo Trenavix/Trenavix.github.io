@@ -29,22 +29,12 @@ var fragmentShaderText =
 
 var gl;
 
-
-var resizeCanvas = function (canvas) 
-{
-	canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-	gl.viewport(0, 0, canvas.innerWidth, canvas.innerHeight);
-	//todo
-}
-var InitDemo = function () 
-{
-	window.addEventListener('resize', resizeCanvas, false);
+var InitDemo = function () {
 	console.log('This is working');
 
 	var canvas = document.getElementById('game-surface');
-	gl =  canvas.getContext('webgl');
-	resizeCanvas(canvas);
+	gl = canvas.getContext('webgl');
+
 	if (!gl) {
 		console.log('WebGL not supported, falling back on experimental-webgl');
 		gl = canvas.getContext('experimental-webgl');
@@ -197,7 +187,7 @@ var InitDemo = function ()
 
 	// Tell OpenGL state machine which program should be active.
 	gl.useProgram(program);
-	resizeCanvas();
+
 	var matWorldUniformLocation = gl.getUniformLocation(program, 'mWorld');
 	var matViewUniformLocation = gl.getUniformLocation(program, 'mView');
 	var matProjUniformLocation = gl.getUniformLocation(program, 'mProj');
@@ -229,6 +219,9 @@ var InitDemo = function ()
         mat4.rotate(xRotationMatrix, identityMatrix, 0, [1, 0, 0]);
         mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
         mat4.scale(worldMatrix, worldMatrix, [1,Math.abs(angle*0.2),1]);
+        canvas.clientWidth = window.innerWidth;
+        canvas.clientHeight = window.innerHeight;
+        gl.viewport(0, 0, window.innerWidth, window.innerHeight);
 		gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
 
 		gl.clearColor(0, 0, 0, 1.0);

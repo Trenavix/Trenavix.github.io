@@ -1,3 +1,49 @@
+var AudioBuffer = 0;
+
+var AudioProcess = function () 
+{
+  console.log("AudioProcess is a go");
+  var source = document.getElementById('audioSource');
+  var audio = new Audio("anotherMediumRemix.mp3");
+  audio.crossOrigin = "null";
+  var audio2 = new Audio("https://bin.smwcentral.net/u/15445/BK-Import-White-Glacier.mp3");
+  //audio.src = source;
+    audio.load();
+    audio.play();
+  console.log("cluck you dan");
+    var context = new AudioContext(audio);
+    var src = context.createMediaElementSource(audio);
+    var analyser = context.createAnalyser();
+
+    src.connect(analyser);
+    analyser.connect(context.destination);
+
+    analyser.fftSize = 256;
+
+    var bufferLength = analyser.frequencyBinCount;
+    console.log(bufferLength);
+
+    var dataArray = new Uint8Array(bufferLength);
+
+    var x = 0;
+
+    function renderFrame() 
+  {
+      requestAnimationFrame(renderFrame);
+
+      x = 0;
+
+      analyser.getByteFrequencyData(dataArray);
+	  //console.log(dataArray[0].toString())
+	  AudioBuffer = dataArray[0];
+      for (var i = 0; i < bufferLength; i++) 
+      {
+		  //console.log(dataArray[i].toString());
+      }
+    }
+    audio.play();
+    renderFrame();
+}
 
 var vertexShaderText = 
 [
@@ -36,16 +82,24 @@ var resizeCanvas = function ()
 }
 
 
-var InitDemo = function () {
-	console.log('This is working');
+var InitDemo = function (e) 
+{
+  let playaudio = false;
+	console.log('Initiated');
   canvas.setAttribute("tabindex", 0);
-  kd.run(function () {
-  kd.tick();
-});
+  kd.run(function () { kd.tick(); } );
+  var audio = document.getElementById('audio');
+  var source = document.getElementById('audioSource');
+  canvas.addEventListener("click", function() 
+  {
+    console.log("AAAAH");
+    //playaudio = true;
+    AudioProcess();
+  });
 window.addEventListener('resize', resizeCanvas, false);
   var angle_x = 0; var angle_y = 0;
-  kd.RIGHT.down(function() {angle_x += 0.1} );
-  kd.LEFT.down(function() {angle_x -= 0.1} );
+  kd.RIGHT.down(function() {angle_x -= 0.1} );
+  kd.LEFT.down(function() {angle_x += 0.1} );
   kd.UP.down(function() {angle_y += 0.1} );
   kd.DOWN.down(function() {angle_y -= 0.1} );
 resizeCanvas();
@@ -243,8 +297,10 @@ resizeCanvas();
 	gl.enableVertexAttribArray(positionAttribLocation);
 	gl.enableVertexAttribArray(colorAttribLocation);
 		mat4.rotate(yRotationMatrix, identityMatrix, angle_x, [0, 1, 0]);
-        mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]);
+		mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]);
+		console.log(AudioBuffer.toString());
         mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
+		mat4.scale(worldMatrix, worldMatrix, [1,Math.pow((AudioBuffer/164), 2),1]);
         canvas.clientWidth = window.innerWidth;
         canvas.clientHeight = window.innerHeight;
         gl.viewport(0, 0, window.innerWidth, window.innerHeight);

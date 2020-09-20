@@ -4,8 +4,7 @@ var AudioBufferArray = new Array(256);
 var AudioProcess = function () 
 {
   console.log("AudioProcess is a go");
-  var source = document.getElementById('audioSource');
-  var audio = new Audio("anotherMediumRemix.mp3");
+  var audio = new Audio("dreamstate_logic.mp3");
     audio.load();
     audio.play();
 	var context = new AudioContext(audio);

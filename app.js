@@ -84,36 +84,32 @@ var framecount = 0;
 
 var InitDemo = function (e) 
 {
-  let playaudio = false;
+  	let playaudio = false;
 	console.log('Initiated');
-  canvas.setAttribute("tabindex", 0);
-  kd.run(function () { kd.tick(); } );
-  var audio = document.getElementById('audio');
-  var source = document.getElementById('audioSource');
-  canvas.addEventListener("click", function() 
-  {
-    console.log("AAAAH");
-    //playaudio = true;
-    AudioProcess();
-  });
-window.addEventListener('resize', resizeCanvas, false);
-  var angle_x = 0; var angle_y = 0;
-  kd.RIGHT.down(function() {angle_x -= 0.1} );
-  kd.LEFT.down(function() {angle_x += 0.1} );
-  kd.UP.down(function() {angle_y += 0.1} );
-  kd.DOWN.down(function() {angle_y -= 0.1} );
-resizeCanvas();
-  
-	if (!gl) {
-		console.log('WebGL not supported, falling back on experimental-webgl');
-		
+	canvas.setAttribute("tabindex", 0);
+	kd.run(function () { kd.tick(); } );
+	var audio = document.getElementById('audio');
+	var source = document.getElementById('audioSource');
+	canvas.addEventListener("click", function() 
+	{
+		console.log("AAAAH");
+    	AudioProcess();
+	});
+	window.addEventListener('resize', resizeCanvas, false);
+	var angle_x = 0; var angle_y = 0;
+	var spread = 0;
+	kd.RIGHT.down(function() {angle_x -= 0.1} );
+	kd.LEFT.down(function() {angle_x += 0.1} );
+	kd.UP.down(function() {angle_y += 0.1} );
+	kd.DOWN.down(function() {angle_y -= 0.1} );
+	resizeCanvas();
+
+	if (!gl) 
+	{ 
+	console.log('WebGL not supported, falling back on experimental-webgl');
+	alert('Your browser does not support WebGL'); 
 	}
 
-	if (!gl) {
-		alert('Your browser does not support WebGL');
-	}
-
-  
 	gl.clearColor(0, 0, 0, 1.0);
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	gl.enable(gl.DEPTH_TEST);
@@ -131,13 +127,15 @@ resizeCanvas();
 	gl.shaderSource(fragmentShader, fragmentShaderText);
 
 	gl.compileShader(vertexShader);
-	if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+	if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) 
+	{
 		console.error('ERROR compiling vertex shader!', gl.getShaderInfoLog(vertexShader));
 		return;
 	}
 
 	gl.compileShader(fragmentShader);
-	if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+	if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) 
+	{
 		console.error('ERROR compiling fragment shader!', gl.getShaderInfoLog(fragmentShader));
 		return;
 	}
@@ -146,12 +144,14 @@ resizeCanvas();
 	gl.attachShader(program, vertexShader);
 	gl.attachShader(program, fragmentShader);
 	gl.linkProgram(program);
-	if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+	if (!gl.getProgramParameter(program, gl.LINK_STATUS)) 
+	{
 		console.error('ERROR linking program!', gl.getProgramInfoLog(program));
 		return;
 	}
 	gl.validateProgram(program);
-	if (!gl.getProgramParameter(program, gl.VALIDATE_STATUS)) {
+	if (!gl.getProgramParameter(program, gl.VALIDATE_STATUS)) 
+	{
 		console.error('ERROR validating program!', gl.getProgramInfoLog(program));
 		return;
 	}
@@ -229,7 +229,7 @@ resizeCanvas();
 
 	// Tell OpenGL state machine which program should be active.
 	gl.useProgram(program);
-
+	
 	var matWorldUniformLocation = gl.getUniformLocation(program, 'mWorld');
 	var matViewUniformLocation = gl.getUniformLocation(program, 'mView');
 	var matProjUniformLocation = gl.getUniformLocation(program, 'mProj');
@@ -247,20 +247,55 @@ resizeCanvas();
 
 	var xRotationMatrix = new Float32Array(16);
     var yRotationMatrix = new Float32Array(16);
-    var yScaleMatrix = new Float32Array(16);
+	var yScaleMatrix = new Float32Array(16);
+	var yTransMatrix = new Float32Array(16);
 
 	//
 	// Main render loop
 	//
 	var identityMatrix = new Float32Array(16);
+	var identityMatrix_t = new Float32Array(16);
 	mat4.identity(identityMatrix);
+	var setBuffersAndAttributes = function ()
+	{
+		var boxVertexBufferObject = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, boxVertexBufferObject);
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(boxVertices), gl.STATIC_DRAW);
+
+		var boxIndexBufferObject = gl.createBuffer();
+		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, boxIndexBufferObject);
+		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(boxIndices), gl.STATIC_DRAW);
+
+		var positionAttribLocation = gl.getAttribLocation(program, 'vertPosition');
+		var colorAttribLocation = gl.getAttribLocation(program, 'vertColor');
+		gl.vertexAttribPointer
+  		(
+		positionAttribLocation, // Attribute location
+		3, // Number of elements per attribute
+		gl.FLOAT, // Type of elements
+		gl.FALSE,
+		6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+		0 // Offset from the beginning of a single vertex to this attribute
+		);
+		gl.vertexAttribPointer
+  		(
+		colorAttribLocation, // Attribute location
+		3, // Number of elements per attribute
+		gl.FLOAT, // Type of elements
+		gl.FALSE,
+		6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+		3 * Float32Array.BYTES_PER_ELEMENT // Offset from the beginning of a single vertex to this attribute
+		);
+		gl.enableVertexAttribArray(positionAttribLocation);
+		gl.enableVertexAttribArray(colorAttribLocation);
+	}
 	var loop = function () 
 	{
-	framecount++;
-	if(framecount % 60) console.log(AudioBuffer.toString());
-	var red = AudioBuffer/255; //follow audio buffer
-	var green = Math.abs(Math.sin(red*3.14)); //inverse audio buffer
-	var blue = 1-red;
+		framecount++;
+		//if(framecount % 120) console.log(AudioBuffer.toString());
+		var red = AudioBuffer/255; //follow audio buffer
+		var green = Math.abs(Math.sin(red*3.14)); //inverse audio buffer
+		var blue = 1-red;
 		for(var i = 0; i < boxVertices.length; i+=6)
 		{
 			if (boxVertices[i+1] > 0) 
@@ -270,51 +305,49 @@ resizeCanvas();
       		 	boxVertices[i+5] = blue; //blue
       		}
 		}
-	var boxVertexBufferObject = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, boxVertexBufferObject);
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(boxVertices), gl.STATIC_DRAW);
-
-	var boxIndexBufferObject = gl.createBuffer();
-	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, boxIndexBufferObject);
-	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(boxIndices), gl.STATIC_DRAW);
-
-	var positionAttribLocation = gl.getAttribLocation(program, 'vertPosition');
-	var colorAttribLocation = gl.getAttribLocation(program, 'vertColor');
-	gl.vertexAttribPointer
-  (
-		positionAttribLocation, // Attribute location
-		3, // Number of elements per attribute
-		gl.FLOAT, // Type of elements
-		gl.FALSE,
-		6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
-		0 // Offset from the beginning of a single vertex to this attribute
-	);
-	gl.vertexAttribPointer
-  (
-		colorAttribLocation, // Attribute location
-		3, // Number of elements per attribute
-		gl.FLOAT, // Type of elements
-		gl.FALSE,
-		6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
-		3 * Float32Array.BYTES_PER_ELEMENT // Offset from the beginning of a single vertex to this attribute
-	);
-
-	gl.enableVertexAttribArray(positionAttribLocation);
-	gl.enableVertexAttribArray(colorAttribLocation);
-		mat4.rotate(yRotationMatrix, identityMatrix, angle_x, [0, 1, 0]);
-		mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]);
-		//console.log(AudioBuffer.toString());
-		mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
-		var scaler = Math.pow((AudioBuffer/164), 2);
-		mat4.scale(worldMatrix, worldMatrix, [scaler,scaler,1]);
-        canvas.clientWidth = window.innerWidth;
-        canvas.clientHeight = window.innerHeight;
-        gl.viewport(0, 0, window.innerWidth, window.innerHeight);
+		
+    	canvas.clientWidth = window.innerWidth;
+    	canvas.clientHeight = window.innerHeight;
+    	gl.viewport(0, 0, window.innerWidth, window.innerHeight);
 		gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
-
 		gl.clearColor(0, 0, 0, 1.0);
 		gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
+		setBuffersAndAttributes();
+		angle_x += 0.0004*AudioBuffer;
+		spread = -(AudioBuffer/95.625);
+		var scaler = (AudioBuffer/255);
+		mat4.rotate(yRotationMatrix, identityMatrix, angle_x, [0, 0, 1]); //x
+		mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]); //y
+		mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
+		mat4.translate(worldMatrix, worldMatrix, [0,spread,0]);
+		mat4.scale(worldMatrix, worldMatrix, [scaler,scaler,scaler]);
 		gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
+		setBuffersAndAttributes();
+		gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
+		mat4.rotate(yRotationMatrix, identityMatrix, angle_x+1.57, [0, 0, 1]); //x
+		mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]); //y
+		mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
+		mat4.translate(worldMatrix, worldMatrix, [0,spread,0]);
+		mat4.scale(worldMatrix, worldMatrix, [scaler,scaler,scaler]);
+		gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
+		setBuffersAndAttributes();
+		gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
+		mat4.rotate(yRotationMatrix, identityMatrix, angle_x+3.14, [0, 0, 1]); //x
+		mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]); //y
+		mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
+		mat4.translate(worldMatrix, worldMatrix, [0,spread,0]);
+		mat4.scale(worldMatrix, worldMatrix, [scaler,scaler,scaler]);
+		gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
+		setBuffersAndAttributes();
+		gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
+		mat4.rotate(yRotationMatrix, identityMatrix, angle_x+4.71, [0, 0, 1]); //x
+		mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]); //y
+		mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
+		mat4.translate(worldMatrix, worldMatrix, [0,spread,0]);
+		mat4.scale(worldMatrix, worldMatrix, [scaler,scaler,scaler]);
+		gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
+		
+		
 
 		requestAnimationFrame(loop);
 	};

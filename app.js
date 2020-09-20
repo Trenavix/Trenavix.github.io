@@ -5,13 +5,10 @@ var AudioProcess = function ()
 {
   console.log("AudioProcess is a go");
   var source = document.getElementById('audioSource');
-  var audio = new Audio("dreamstate_logic.mp3");
+  var audio = new Audio("anotherMediumRemix.mp3");
     audio.load();
     audio.play();
 	var context = new AudioContext(audio);
-	context.decodeAudioData(AudioBufferArray, (buffer) => { 
-		resolve(buffer); 
-}, (e) => { console.log(e); });
     var src = context.createMediaElementSource(audio);
     var analyser = context.createAnalyser();
 
@@ -21,7 +18,6 @@ var AudioProcess = function ()
     analyser.fftSize = 256;
 
     var bufferLength = analyser.frequencyBinCount;
-    console.log(bufferLength);
 
     var dataArray = new Uint8Array(bufferLength);
 
@@ -34,11 +30,15 @@ var AudioProcess = function ()
       x = 0;
 
       analyser.getByteFrequencyData(dataArray);
-	  AudioBuffer = dataArray[0];
+	  var total = 0;
       for (var i = 0; i < bufferLength; i++) 
       {
 		  AudioBufferArray = dataArray[i];
-      }
+		  total += dataArray[i];
+	  }
+	  AudioBuffer = total/dataArray.length; //average decibel across ALL frequencies
+	  AudioBuffer *= 1.8;
+	  if (AudioBuffer > 255) AudioBuffer = 255;
     }
     audio.play();
     renderFrame();

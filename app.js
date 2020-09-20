@@ -1,17 +1,17 @@
 var AudioBuffer = 0;
+var AudioBufferArray = new Array(256);
 
 var AudioProcess = function () 
 {
   console.log("AudioProcess is a go");
   var source = document.getElementById('audioSource');
-  var audio = new Audio("anotherMediumRemix.mp3");
-  audio.crossOrigin = "null";
-  var audio2 = new Audio("https://bin.smwcentral.net/u/15445/BK-Import-White-Glacier.mp3");
-  //audio.src = source;
+  var audio = new Audio("dreamstate_logic.mp3");
     audio.load();
     audio.play();
-  console.log("cluck you dan");
-    var context = new AudioContext(audio);
+	var context = new AudioContext(audio);
+	context.decodeAudioData(AudioBufferArray, (buffer) => { 
+		resolve(buffer); 
+}, (e) => { console.log(e); });
     var src = context.createMediaElementSource(audio);
     var analyser = context.createAnalyser();
 
@@ -28,17 +28,16 @@ var AudioProcess = function ()
     var x = 0;
 
     function renderFrame() 
-  {
+  	{
       requestAnimationFrame(renderFrame);
 
       x = 0;
 
       analyser.getByteFrequencyData(dataArray);
-	  //console.log(dataArray[0].toString())
 	  AudioBuffer = dataArray[0];
       for (var i = 0; i < bufferLength; i++) 
       {
-		  //console.log(dataArray[i].toString());
+		  AudioBufferArray = dataArray[i];
       }
     }
     audio.play();
@@ -81,6 +80,7 @@ var resizeCanvas = function ()
   canvas.height = window.innerHeight;
 }
 
+var framecount = 0;
 
 var InitDemo = function (e) 
 {
@@ -256,14 +256,19 @@ resizeCanvas();
 	mat4.identity(identityMatrix);
 	var loop = function () 
 	{
-    
-    var colour = Math.abs(Math.cos(performance.now() / 1000 / 6 *2* Math.PI))
+	framecount++;
+	if(framecount % 60) console.log(AudioBuffer.toString());
+	var red = AudioBuffer/255; //follow audio buffer
+	var green = Math.abs(Math.sin(red*3.14)); //inverse audio buffer
+	var blue = 1-red;
 		for(var i = 0; i < boxVertices.length; i+=6)
 		{
-			if (boxVertices[i+1] > 0) {
-       boxVertices[i+5] = colour;
-        boxVertices[i+3] = colour;
-      }
+			if (boxVertices[i+1] > 0) 
+			{
+				boxVertices[i+3] = red; //red
+				boxVertices[i+4] = green; //green
+      		 	boxVertices[i+5] = blue; //blue
+      		}
 		}
 	var boxVertexBufferObject = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, boxVertexBufferObject);
@@ -298,9 +303,10 @@ resizeCanvas();
 	gl.enableVertexAttribArray(colorAttribLocation);
 		mat4.rotate(yRotationMatrix, identityMatrix, angle_x, [0, 1, 0]);
 		mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]);
-		console.log(AudioBuffer.toString());
-        mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
-		mat4.scale(worldMatrix, worldMatrix, [1,Math.pow((AudioBuffer/164), 2),1]);
+		//console.log(AudioBuffer.toString());
+		mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
+		var scaler = Math.pow((AudioBuffer/164), 2);
+		mat4.scale(worldMatrix, worldMatrix, [scaler,scaler,1]);
         canvas.clientWidth = window.innerWidth;
         canvas.clientHeight = window.innerHeight;
         gl.viewport(0, 0, window.innerWidth, window.innerHeight);

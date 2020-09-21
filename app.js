@@ -70,7 +70,7 @@ var InitDemo = function (e)
 		gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
 		gl.clearColor(0, 0, 0, 1.0);
 		gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
-		angle_x += 0.0004*AudioBuffer;
+		angle_x += 0.0003*AudioBuffer;
 		//angle_y += 0.0001*AudioBuffer;
 		spread = -(AudioBuffer/175);
 		var scaler = (AudioBuffer/510);

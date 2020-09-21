@@ -28,7 +28,7 @@ var AudioProcess = function ()
 
       x = 0;
 
-      analyser.getByteFrequencyData(dataArray);
+      analyser.getByteTimeDomainData(dataArray);
       var total = 0;
       var thirds = bufferLength/3;
       AudioBufferThirds = new Float32Array(3);

@@ -1,7 +1,8 @@
 var program; //WebGL Program
-var angleHistory = new Float32Array(64);
-var scalerHistory = new Float32Array(64);
-var spreadHistory = new Float32Array(64);
+var currentcolour = new Float32Array(3);
+var angleHistory = new Float32Array(128);
+var scalerHistory = new Float32Array(128);
+var spreadHistory = new Float32Array(128);
 var vertexShaderText = 
 [
 'precision mediump float;',

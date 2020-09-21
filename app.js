@@ -74,15 +74,12 @@ var InitDemo = function (e)
 		//angle_y += 0.0001*AudioBuffer;
 		spread = -(AudioBuffer/175);
 		var scaler = (AudioBuffer/510);
-		addEntryToFrontOfArray(angleHistory, angle_x)
-		addEntryToFrontOfArray(scalerHistory, scaler);
-		addEntryToFrontOfArray(spreadHistory, spread);
 		var backwardTranslation = 0;
+		setBuffersAndAttributes();
 		for(var i=0; i< angleHistory.length; i+=8)
 		{
 			var currentScale = scalerHistory[i];
 			var currentSpread = spreadHistory[i]-i*1.5/8;
-			setBuffersAndAttributes();
 			gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
 			mat4.rotate(yRotationMatrix, identityMatrix, angleHistory[i], [0, 0, 1]); //x
 			mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]); //y
@@ -90,33 +87,29 @@ var InitDemo = function (e)
 			mat4.translate(worldMatrix, worldMatrix, [0,currentSpread,backwardTranslation]);
 			mat4.scale(worldMatrix, worldMatrix, [currentScale,currentScale,scalerHistory[i]]);
 			gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
-		setBuffersAndAttributes();
-		gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
-		mat4.rotate(yRotationMatrix, identityMatrix, angleHistory[i]+1.57, [0, 0, 1]); //x
-		mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]); //y
-		mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
-		mat4.translate(worldMatrix, worldMatrix, [0,currentSpread,backwardTranslation]);
-		mat4.scale(worldMatrix, worldMatrix, [currentScale,currentScale,scalerHistory[i]]);
-		gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
-		setBuffersAndAttributes();
-		gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
-		mat4.rotate(yRotationMatrix, identityMatrix, angleHistory[i]+3.14, [0, 0, 1]); //x
-		mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]); //y
-		mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
-		mat4.translate(worldMatrix, worldMatrix, [0,currentSpread,backwardTranslation]);
-		mat4.scale(worldMatrix, worldMatrix, [currentScale,currentScale,scalerHistory[i]]);
-		gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
-		setBuffersAndAttributes();
-		gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
-		mat4.rotate(yRotationMatrix, identityMatrix, angleHistory[i]+4.71, [0, 0, 1]); //x
-		mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]); //y
-		mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
-		mat4.translate(worldMatrix, worldMatrix, [0,currentSpread,backwardTranslation]);
-		mat4.scale(worldMatrix, worldMatrix, [currentScale,currentScale,scalerHistory[i]]);
-		gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
-		backwardTranslation+=3.5;
+			gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
+			mat4.rotate(yRotationMatrix, identityMatrix, angleHistory[i]+1.57, [0, 0, 1]); //x
+			mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]); //y
+			mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
+			mat4.translate(worldMatrix, worldMatrix, [0,currentSpread,backwardTranslation]);
+			mat4.scale(worldMatrix, worldMatrix, [currentScale,currentScale,scalerHistory[i]]);
+			gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
+			gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
+			mat4.rotate(yRotationMatrix, identityMatrix, angleHistory[i]+3.14, [0, 0, 1]); //x
+			mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]); //y
+			mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
+			mat4.translate(worldMatrix, worldMatrix, [0,currentSpread,backwardTranslation]);
+			mat4.scale(worldMatrix, worldMatrix, [currentScale,currentScale,scalerHistory[i]]);
+			gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
+			gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
+			mat4.rotate(yRotationMatrix, identityMatrix, angleHistory[i]+4.71, [0, 0, 1]); //x
+			mat4.rotate(xRotationMatrix, identityMatrix, angle_y, [1, 0, 0]); //y
+			mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
+			mat4.translate(worldMatrix, worldMatrix, [0,currentSpread,backwardTranslation]);
+			mat4.scale(worldMatrix, worldMatrix, [currentScale,currentScale,scalerHistory[i]]);
+			gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
+			backwardTranslation+=3.5;
 		}
-		
 		
 		addEntryToFrontOfArray(angleHistory, angle_x);
 		addEntryToFrontOfArray(scalerHistory, scaler);

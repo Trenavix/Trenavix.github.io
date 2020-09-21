@@ -1,48 +1,3 @@
-var AudioBuffer = 0;
-var AudioBufferArray = new Array(256);
-
-var AudioProcess = function () 
-{
-  console.log("AudioProcess is a go");
-  var audio = new Audio("dreamstate_logic.mp3");
-    audio.load();
-    audio.play();
-	var context = new AudioContext(audio);
-    var src = context.createMediaElementSource(audio);
-    var analyser = context.createAnalyser();
-
-    src.connect(analyser);
-    analyser.connect(context.destination);
-
-    analyser.fftSize = 256;
-
-    var bufferLength = analyser.frequencyBinCount;
-
-    var dataArray = new Uint8Array(bufferLength);
-
-    var x = 0;
-
-    function renderFrame() 
-  	{
-      requestAnimationFrame(renderFrame);
-
-      x = 0;
-
-      analyser.getByteFrequencyData(dataArray);
-	  var total = 0;
-      for (var i = 0; i < bufferLength; i++) 
-      {
-		  AudioBufferArray = dataArray[i];
-		  total += dataArray[i];
-	  }
-	  AudioBuffer = total/dataArray.length; //average decibel across ALL frequencies
-	  AudioBuffer *= 1.8;
-	  if (AudioBuffer > 255) AudioBuffer = 255;
-    }
-    audio.play();
-    renderFrame();
-}
-
 var vertexShaderText = 
 [
 'precision mediump float;',
@@ -83,16 +38,13 @@ var framecount = 0;
 
 var InitDemo = function (e) 
 {
-  	let playaudio = false;
-	console.log('Initiated');
+	AudioProcess();
 	canvas.setAttribute("tabindex", 0);
 	kd.run(function () { kd.tick(); } );
-	var audio = document.getElementById('audio');
-	var source = document.getElementById('audioSource');
 	canvas.addEventListener("click", function() 
 	{
 		console.log("AAAAH");
-    	AudioProcess();
+    	//AudioProcess();
 	});
 	window.addEventListener('resize', resizeCanvas, false);
 	var angle_x = 0; var angle_y = 0;
@@ -253,7 +205,6 @@ var InitDemo = function (e)
 	// Main render loop
 	//
 	var identityMatrix = new Float32Array(16);
-	var identityMatrix_t = new Float32Array(16);
 	mat4.identity(identityMatrix);
 	var setBuffersAndAttributes = function ()
 	{
@@ -313,6 +264,7 @@ var InitDemo = function (e)
 		gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 		setBuffersAndAttributes();
 		angle_x += 0.0004*AudioBuffer;
+		//angle_y += 0.0001*AudioBuffer;
 		spread = -(AudioBuffer/95.625);
 		var scaler = (AudioBuffer/255);
 		mat4.rotate(yRotationMatrix, identityMatrix, angle_x, [0, 0, 1]); //x

@@ -4,13 +4,13 @@ var framecount = 0;
 
 var InitDemo = function (e) 
 {
-	AudioProcess();
+	//AudioProcess();
 	canvas.setAttribute("tabindex", 0);
 	kd.run(function () { kd.tick(); } );
 	canvas.addEventListener("click", function() 
 	{
 		//do stuff by clicking on canvas
-		//AudioProcess();
+		AudioProcess();
 	});
 	window.addEventListener('resize', resizeCanvas, false);
 	resizeCanvas();

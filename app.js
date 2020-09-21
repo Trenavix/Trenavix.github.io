@@ -1,7 +1,6 @@
 var canvas = document.getElementById('game-surface');
 var gl = canvas.getContext('webgl');
 var framecount = 0;
-
 var InitDemo = function (e) 
 {
 	//AudioProcess();
@@ -68,6 +67,7 @@ var InitDemo = function (e)
     	canvas.clientHeight = window.innerHeight;
     	gl.viewport(0, 0, window.innerWidth, window.innerHeight);
 		gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
+		var gsBackColour = avgFreq/32;
 		gl.clearColor(0, 0, 0, 1.0);
 		gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 		angle_x += 0.0003*AudioBuffer;

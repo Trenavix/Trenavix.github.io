@@ -3,11 +3,12 @@ var maxFreqRange = 0;
 var avgFreq = 0;
 var AudioBufferArray = new Array(256);
 var AudioBufferThirds = new Array(3);
-var mp3s = ["dreamstate_logic.mp3", "anotherMediumRemix.mp3", "darklord.mp3"];
+var mp3s = ["dreamstate_logic.mp3", "anotherMediumRemix.mp3", "darklord.mp3", "bramble_rock.mp3", "luv_letter.mp3"];
 var currentMP3 = 1;
 var currentAudio = new Audio(mp3s[currentMP3]);
 var AudioProcess = function () 
 {
+  currentAudio.crossOrigin = "anonymous";
   currentAudio.pause();
   console.log("AudioProcess is a go");
   currentMP3++;

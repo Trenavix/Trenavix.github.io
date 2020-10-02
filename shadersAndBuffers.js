@@ -1,15 +1,17 @@
 var program; //WebGL Program
 var currentcolour = new Float32Array(3);
-var angleHistory = new Float32Array(128);
-var scalerHistory = new Float32Array(128);
-var spreadHistory = new Float32Array(128);
+var angleHistory = new Float32Array(256);
+var angleHistoryX = new Float32Array(256);
+var scalerHistory = new Float32Array(256);
+var spreadHistory = new Float32Array(256);
+var vertexBufferObject;
 var vertexShaderText = 
 [
 'precision mediump float;',
 '',
 'attribute vec3 vertPosition;',
-'attribute vec3 vertColor;',
-'varying vec3 fragColor;',
+'attribute vec4 vertColor;',
+'varying vec4 fragColor;',
 'uniform mat4 mWorld;',
 'uniform mat4 mView;',
 'uniform mat4 mProj;',
@@ -25,10 +27,10 @@ var fragmentShaderText =
 [
 'precision mediump float;',
 '',
-'varying vec3 fragColor;',
+'varying vec4 fragColor;',
 'void main()',
 '{',
-'  gl_FragColor = vec4(fragColor, 1.0);',
+'  gl_FragColor = fragColor;',
 '}'
 ].join('\n');
 
@@ -45,7 +47,7 @@ var generateBuffers = function()
 	gl.enable(gl.DEPTH_TEST);
 	gl.enable(gl.CULL_FACE);
 	gl.frontFace(gl.CCW);
-	gl.cullFace(gl.BACK);
+	gl.cullFace(gl.FRONT);
 
 	//
 	// Create shaders
@@ -101,44 +103,60 @@ var rotateMatrices = function(matWorldUniformLocation, worldMatrix, xRotationMat
 //
 // Create buffer
 //
+
+var faderVertices = 
+[	//X, Y, Z			R, G, B, A
+	0.0, 0.0, 0.0,		1.0, 1.0, 1.0, 1.0,
+	1.0, 1.0, 0.0,		1.0, 1.0, 1.0, 0.0,
+	-1.0, 1.0, 0.0,		1.0, 1.0, 1.0, 0.0,
+	-1.0, -1.0, 0.0,	1.0, 1.0, 1.0, 0.0,
+	1.0, -1.0, 0.0,		1.0, 1.0, 1.0, 0.0,
+]
+var faderIndices = 
+[
+	0, 1, 2, //two upper
+	0, 2, 3, //upleft, lowleft
+	0, 3, 4, //lowleft, lowright
+	0, 4, 1 //lowright, upright
+]
 var boxVertices = 
 [ 
-    // X, Y, Z           R, G, B
+    // X, Y, Z           R, G, B, A
 	// Top
-	-1.0, 1.0, -1.0,   1.0, 1.0, 1.0,
-	-1.0, 1.0, 1.0,    1.0, 1.0, 1.0,
-	1.0, 1.0, 1.0,     1.0, 1.0, 1.0,
-	1.0, 1.0, -1.0,    1.0, 1.0, 1.0,
+	-1.0, 1.0, -1.0,   1.0, 1.0, 1.0, 1.0,
+	-1.0, 1.0, 1.0,    1.0, 1.0, 1.0, 1.0,
+	1.0, 1.0, 1.0,     1.0, 1.0, 1.0, 1.0,
+	1.0, 1.0, -1.0,    1.0, 1.0, 1.0, 1.0,
 
 	// Left
-	-1.0, 1.0, 1.0,    1.0, 1.0, 1.0,
-	-1.0, -1.0, 1.0,   0, 0, 0,
-	-1.0, -1.0, -1.0,  0, 0, 0,
-	-1.0, 1.0, -1.0,   1.0, 1.0, 1.0,
+	-1.0, 1.0, 1.0,    1.0, 1.0, 1.0, 1.0,
+	-1.0, -1.0, 1.0,   1, 1, 1, 1.0,
+	-1.0, -1.0, -1.0,  1, 1, 1, 1.0,
+	-1.0, 1.0, -1.0,   1.0, 1.0, 1.0, 1.0,
 
 	// Right
-	1.0, 1.0, 1.0,    1.0, 1.0, 1.0,
-	1.0, -1.0, 1.0,   0, 0, 0,
-	1.0, -1.0, -1.0,  0, 0, 0,
-	1.0, 1.0, -1.0,   1.0, 1.0, 1.0,
+	1.0, 1.0, 1.0,    1.0, 1.0, 1.0, 1.0,
+	1.0, -1.0, 1.0,   1, 1, 1, 1.0,
+	1.0, -1.0, -1.0,  1, 1, 1, 1.0,
+	1.0, 1.0, -1.0,   1.0, 1.0, 1.0, 1.0,
 
 	// Front
-	1.0, 1.0, 1.0,    1.0, 1.0, 1.0,
-	1.0, -1.0, 1.0,    0, 0.0, 0,
-	-1.0, -1.0, 1.0,    0, 0.0, 0,
-	-1.0, 1.0, 1.0,    1.0, 1.0, 1.0,
+	1.0, 1.0, 1.0,    1.0, 1.0, 1.0, 1.0,
+	1.0, -1.0, 1.0,    1, 1.0, 1, 1.0,
+	-1.0, -1.0, 1.0,    1, 1.0, 1, 1.0,
+	-1.0, 1.0, 1.0,    1.0, 1.0, 1.0, 1.0,
 
 	// Back
-	1.0, 1.0, -1.0,    1.0, 1.0, 1.0,
-	1.0, -1.0, -1.0,    0.0, 0, 0,
-	-1.0, -1.0, -1.0,    0.0, 0, 0,
-	-1.0, 1.0, -1.0,    1.0, 1.0, 1.0,
+	1.0, 1.0, -1.0,    1.0, 1.0, 1.0, 1.0,
+	1.0, -1.0, -1.0,    1.0, 1, 1, 1.0,
+	-1.0, -1.0, -1.0,    1.0, 1, 1, 1.0,
+	-1.0, 1.0, -1.0,    1.0, 1.0, 1.0, 1.0,
 
 	// Bottom
-	-1.0, -1.0, -1.0,   0, 0, 0,
-	-1.0, -1.0, 1.0,    0, 0, 0,
-	1.0, -1.0, 1.0,     0, 0, 0,
-	1.0, -1.0, -1.0,    0, 0, 0,
+	-1.0, -1.0, -1.0,   1, 1, 1, 1.0,
+	-1.0, -1.0, 1.0,    1, 1, 1, 1.0,
+	1.0, -1.0, 1.0,     1, 1, 1, 1.0,
+	1.0, -1.0, -1.0,    1, 1, 1, 1.0,
 ];
 
 var boxIndices =
@@ -168,14 +186,14 @@ var boxIndices =
 	22, 20, 23
 ];
 
-var setBuffersAndAttributes = function()
+var setBuffersAndAttributes = function(vertices, indices)
 {
-	var boxVertexBufferObject = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, boxVertexBufferObject);
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(boxVertices), gl.STATIC_DRAW);
+	var vertexBufferObject = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, vertexBufferObject);
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.DYNAMIC_DRAW); //dyanmic so we can modify vertices realtime
 	var boxIndexBufferObject = gl.createBuffer();
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, boxIndexBufferObject);
-	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(boxIndices), gl.STATIC_DRAW);
+	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
 	var positionAttribLocation = gl.getAttribLocation(program, 'vertPosition');
 	var colorAttribLocation = gl.getAttribLocation(program, 'vertColor');
 	gl.vertexAttribPointer
@@ -184,18 +202,37 @@ var setBuffersAndAttributes = function()
 	    3, // Number of elements per attribute
 	    gl.FLOAT, // Type of elements
 	    gl.FALSE,
-	    6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+	    7 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
 	    0 // Offset from the beginning of a single vertex to this attribute
 	);
 	gl.vertexAttribPointer
   	(
 	    colorAttribLocation, // Attribute location
-	    3, // Number of elements per attribute
+	    4, // Number of elements per attribute
 	    gl.FLOAT, // Type of elements
 	    gl.FALSE,
-	    6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+	    7 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
 	    3 * Float32Array.BYTES_PER_ELEMENT // Offset from the beginning of a single vertex to this attribute
 	);
 	gl.enableVertexAttribArray(positionAttribLocation);
+	gl.enableVertexAttribArray(colorAttribLocation);
+}
+
+var bindBufferSubData = function()
+{
+	vertexBufferObject = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, vertexBufferObject);
+	gl.bufferSubData(gl.ARRAY_BUFFER, new Float32Array(boxVertices), boxVertexBufferObject)
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(boxVertices), gl.STATIC_DRAW);
+	var colorAttribLocation = gl.getAttribLocation(program, 'vertColor');
+	gl.vertexAttribPointer
+  	(
+	    colorAttribLocation, // Attribute location
+	    4, // Number of elements per attribute
+	    gl.FLOAT, // Type of elements
+	    gl.FALSE,
+	    7 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+	    3 * Float32Array.BYTES_PER_ELEMENT // Offset from the beginning of a single vertex to this attribute
+	);
 	gl.enableVertexAttribArray(colorAttribLocation);
 }

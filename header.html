@@ -1,0 +1,126 @@
+<style>
+html, body 
+{
+    width:  100%;
+    height: 100%;
+    margin: 0px;
+    border: 0;
+	color: #DDD;
+    font-family: "Open Sans", Tahoma, Arial, sans-serif;
+	font-size: 14px;
+    overflow: hidden;
+    display: block;
+    position: fixed;
+}
+.logo
+{
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    margin-top: 0px;
+    height: 32px;
+    width: 32px;
+}
+.info
+{
+    position: fixed;
+    top: 16px;
+    left: 48px;
+}
+.info_right
+{
+    position: fixed;
+    top: 16px;
+}
+.login
+{
+    position: fixed;
+    top: 8px;
+}
+.head
+{
+    position: fixed;
+    z-index: 1;
+    margin: 0px;
+    top: 0px;
+    height: 48px;
+    width: 100%;
+	background-color: #161616CF;
+}
+@media screen and (orientation: landscape ) 
+{
+	.login
+	{
+		top: 8px;
+        right: 16px;
+	}
+    .info_right
+    {
+        right: 24px;
+    }
+}
+@media screen and (orientation: portrait ) 
+{	
+	.login
+	{
+        top: 48px;
+        left: 24px;
+    }
+    .info_right
+    {
+        left: 24px;
+    }
+    .head
+    {
+        height: 112px;
+    }
+    html
+    {
+        top: 112px;
+        height: calc(100% - 112px);
+    }
+}
+a 
+{
+	text-decoration: none;
+	color: #69F;
+}
+.spacer
+{
+    width: 100%;
+    height: 48px;
+}
+</style>
+
+<!DOCTYPE html>
+<html>
+    <div class="head">
+        <head>
+        <meta charset="utf-8">
+        <meta name="descrption" content="Example descrption for header to show in search results etc">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        </head>
+        <body>
+            <header>
+                <a href="https://trenavix.github.io">
+                <div class="logo"><img src="https://trenavix.github.io/files/Trenavix_Rounded.png" alt="logo" width="32" height="32"></div>
+                </a>
+                <li>
+                <div class="info">
+                <a href="https://trenavix.github.io">Home</a> &bull;
+                <a href="https://github.com/trenavix/">GitHub</a> &bull;
+                <a href="./audio3d/">Audio3D</a> &bull;
+                <a href="./eMoto/">eMoto</a>
+                </div>
+                </li>
+                <div class="login">
+                
+                </div>
+            </header>
+        </body>
+    </div>
+    <div class="spacer">
+        &nbsp;
+    </div>
+</html>
+

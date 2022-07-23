@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
-body {
+body 
+{
 	background-color: #000000FF;
 	position: absolute;
 	top: 0px;
@@ -12,64 +13,87 @@ body {
 	height: 100%;
 	overflow: auto;
 }
-table {
+table 
+{
 	font-size: 14px;
 	border-collapse: collapse;
 }
-thead {
+thead 
+{
 	background-color: #DDD;
 }
 tbody tr:nth-child(odd)
 {
 	background-color: #F3F3F3;
 }
-td {
+td 
+{
 	border: 1px solid #DDD;
 	padding: 2px;
 }
-a {
+a 
+{
 	text-decoration: none;
 	color: #69F;
 }
 
-.align-right {
+.align-right 
+{
 	text-align: right;
 }
 
-.title {
+.title 
+{
     font-size: 48px;
     text-align: center;
 }
-.heading {
+.heading 
+{
     font-size: 36px;
     text-align: center;
 }
-.subheading {
+.subheading 
+{
     font-size: 24px;
     text-align: center;
 }
-pre {
+pre 
+{
     margin: 0px;
     text-align: center;
 }
-.node {
+.node 
+{
 	margin-left: 2px;
 	padding: 10px;
     margin-bottom: 0px;
     text-align: center;
 }
-.content{
-	z-index: 1;
+.content
+{
+    z-index: 1;
 	margin: auto;
 	width: 40%;
-	background-color: #323232AF;
+    background-color: #323232AF;
 }
-.background {
-
-	position:absolute;
+.background 
+{
+	position:fixed;
     left:0px;
 	top:0px;
 	margin: 0px;
 	padding: 0px;
     z-index:-1;	
+}
+@media (max-aspect-ratio: 5/4 ) 
+{	
+	.content
+	{
+        width: 80%;
+	}
+	.background
+	{
+		height: 100%;
+		top: 96px;
+	}
 }

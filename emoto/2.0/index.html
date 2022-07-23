@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+    <script src="https://trenavix.com/resources/jquery.js"></script>
+    <script>
+        $(function(){ $("#headerContent").load("../../header.html"); });
+    </script> 
+    <div id="headerContent"></div>
+    <title>Trenavix's Site</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    </head>
+    <body id="body">
+    <div id="contentDiv" class="content">
+        <div class="subheading"><br><br></div>
+        <div class="title"><b>Electric Motorcycle Building:</br>Generation 2</b><hr></div>
+        <div class="node">
+            <div class="subheading">The rebuild. Except on steroids.</div>
+            <div class="node">
+                When my first motorcycle was stolen (has now been recovered!), I was left with nothing. Except...<br>
+                <img style="width: 70%; height: auto;" src="new_Battery.jpg"><br>
+                This battery I had ordered toward the end of 2019 to fit all of the space inside of the stealth bomber frame, with 400 samsung 35E cells total (just over 5kWH!).<br>
+                Unfortunately, it went unused and had sat in my garage for over a year since it was too wide and impossible to get into the frame due to the sidewalls.<br>
+                Well, I was going insane without a motorcycle. So, it was time.<br>
+                The first step was to grind off the sidewalls of a new frame.<br>
+                <img style="width: 70%; height: auto;" src="frame_Grinding.jpeg"><br>
+                Next up was finding front forks. The previous build used heavy duty mountain bike forks, the DNM USD-8. However, this time I went with something a bit more bold.<br>
+                I found a 2006 KTM 525 front-end on craigslist listed for $200, including the triple tree, forks, brake calliper, hose, and lever. It was too good to pass up, so I bought.<br>
+                <img style="width: 70%; height: auto;" src="ktm_Fork.jpg"><br>
+                The forks definitely needed heavy cleaning and a fresh paint job on the clamps. To my surprise, the steerer tube was 1-1/8 inch, so it fit perfectly in the bomber head tube.<br>
+                <img style="width: 70%; height: auto;" src="ktm_On_Frame.jpg"><br>
+                Since I felt a bit more comfortable with paint at this point, I went ahead and repainted the Brembo brake calliper and reservoir as well.<br>
+                <img style="width: 70%; height: auto;" src="brembo_Repaint.jpg"><br>
+                <img style="width: 70%; height: auto;" src="brembo_Repaint2.jpg"><br>
+                The controller this time was a Kelly KLS8080h with <b>600 peak phase amps.</b> I mainly chose this for the 240 continuous phase amps, to push up mountains.<br>
+                To make this large controller fit onto the bomber frame, I used a drill press to make some new mount holes a <i>little</i> less wide.<br>
+                <img style="width: 70%; height: auto;" src="8080h_Drilled.jpg"><br>
+                <img style="width: 70%; height: auto;" src="8080h_Drilled2.jpg"><br>
+                With the sidewall being gone, I had to CAD a new one to be bolted to the very edges of the frame around the battery. An old friend of mine had a mill down the road I used.<br>
+                I then drill pressed bolt holes into the new side walls, painted them, and tapped the bolt holes into the frame.<br>
+                <img style="width: 70%; height: auto;" src="sideWall_Metal.jpg"><br>
+                <img style="width: 70%; height: auto;" src="sideWall_Painted.jpg"><br>
+                At this point I started the 12v circuitry and had the headlight housing mounted on the fork, and wired the ct-22 dashboard up as well.<br>
+                I made a crude wiring diagram to help me along the way of splicing connectors.<br>
+                <img style="width: 70%; height: auto;" src="wiring_Diagram.png"><br>
+                As far as getting a front wheel for the KTM front-end, I had it fully built by a moto shop nearby me. I used a 19x1.85in rim and painted the rim, spokes, and hub myself.
+                <img style="width: 70%; height: auto;" src="front_Wheel_Painted.jpg"><br>
+                With a Michelin Pilot Activ 3.25-19in tire and the 270mm rotor and new oversized bracket, I essentially had supermoto braking.<br>
+                <img style="width: 50%; height: auto;" src="superMoto_Brakes.jpg"><br>
+                As far as the rear wheel, I had the same exact setup as before: A QS 273 v3 50h in a 19-1.85in rim.<br>
+                Just as before, I had to dremel the drop-outs to support the larger axle flats, finishing flat with a file and calliper measurements constantly.<br>
+                I put the torque washers on the inside area of the swing-arm this time, and tapped in the bolt holes after drill-pressing them in.<br>
+                Finally, it was time to take the bike off the rope hoisting, and shove the battery in. It was a near perfect fit.<br>
+                <img style="width: 70%; height: auto;" src="battery_In_Frame.jpg"><br>
+                I now had a bomber with >100kmph speeds, 100A continuous battery amps, and up to 600 phase amps to supply torque.<br>
+                On top of this, the battery was capable of charging at 30A on 240v outlets and EV chargers, thus taking less than an hour to charge nearly 70%.<br>
+                <img style="width: 70%; height: auto;" src="bike_Charging.jpg"><br>
+                Even at 150 phase amps, the front end could lift off the ground from a start. Getting this thing to <i>not</i> wheelie took some effort.<br>
+                <img style="width: 70%; height: auto;" src="moto_Santa_Monica.jpg"><br>
+                We just had one major issue. The battery built by Unit Pack Power had 8awg wire. This was a huge red flag for a "100A" battery.<br>
+                After some heavy testing, my XT150 connectors melted completely at 90A, and after soldering them back together, a battery cell by the terminal wire entered <a href="https://www.sciencedirect.com/topics/chemistry/thermal-runaway#:~:text=Thermal%20runaway%20is%20a%20situation,a%20further%20rise%20in%20temperature.">thermal runaway</a>.<br>
+                <img style="width: 70%; height: auto;" src="burnt_Cell.jpg"><br>Due to this, I got myself a spot welder, nickel strip, and 2awg wires. I blowtorched solder to bind the wire to nickel strips, then spot welded the strip along the terminal cell groups.<br>
+                I essentially rebuilt the battery myself with much less resistance to truly support such high current.<br>
+                <img style="width: 70%; height: auto;" src="2awg_Wire.jpg"><br>
+                <img style="width: 70%; height: auto;" src="moto_Bluff_Cove.jpg"><br>
+                And here we are for now! The bike is still being run every day by me and we'll find out if there are any further weak points. As it stands, it's a freeway capable motorcycle with a tonne of torque and decent range, proving about 100km freeway and 130-150km city.<br>
+                <br>
+                Update May 2021: The motor I ordered for this bike was incorrect winding and only got max right around 100km/h due to its kV rating - somewhere around 800RPM when I requested 1030RPM.<br>
+                Luckily, my first motorcycle was retrieved after being stolen, and <i>its</i> motor had correct winding. So I swapped the two bikes' motors, since the first motorcycle only maxed around 100km/h by power anyway.<br>
+                As a result, I have pushed <u>130km/h</u> thus far on this bike, with a 90A limit on battery amps. Further testing is to be done with more battery amps!<br><br>
+
+                Update June 2021: <br>
+                <iframe width="80%" height="auto"
+                src="https://www.youtube.com/embed/_VOpmgUovDw">
+                </iframe>
+                <br>
+                Here is a sample of the bike going through Malibu canyon with its new speeds.<br>
+                You can see in the video that a cargo rack has been added with pannier bags, which will soon be used for extra batteries.<br>
+                The charger is also now bolted underneath the rack, so it is always onboard.<br?
+
+            </div>
+            <div class="background">
+                <canvas id="canvas">
+                    <script src="../../audio3d/dependencies/gl-matrix.js"></script>
+                    <script src="../../audio3d/dependencies/functions.js"></script>
+                    <script src="https://webglfundamentals.org/webgl/resources/m4.js"></script>
+                    <script src="../../resources/particle.js"></script> 
+                    <script src="../../resources/matrixStack.js"></script>    
+                    <script src="../../background.js"></script>
+                    <script src="../../shadersAndBuffers.js"></script>
+                    <script>background();</script>
+                </canvas>
+            </div>
+        </div>   
+    </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+    <script src="../resources/jquery-3.6.0.js"></script>
+    <script> 
+    $(function()
+    {
+        $("#header").load("../header.html"); //set the path to your header file
+    });
+    </script> 
+    <head>
+    <div id="header"></div>
+    <title>Trenavix's Site</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    </head>
+    <body id="body">
+    <div id="contentDiv" class="content" onclick="playWow()">
+            <div class="subheading"><br></div>
+            <div class="title"><b>WOW</b></br></div>
+            <div class="node">
+                <div class="subheading">
+                    <img style="width: 80%; height: auto;" src="wow.jpg"></a><br>
+                    Wow
+                </div>
+            </div>
+    </div>
+    <div class="background">
+                <canvas id="canvas">
+                    <script src="../resources/gl-matrix.js"></script>
+                    <script src="../resources/functions.js"></script>
+                    <script src="https://webglfundamentals.org/webgl/resources/m4.js"></script>
+                    <script src="../resources/particle.js"></script> 
+                    <script src="../resources/matrixStack.js"></script>    
+                    <script src="../background.js"></script>
+                    <script src="../resources/shadersAndBuffers.js"></script>
+                    <script>background();</script>
+                </canvas>   
+    </body>
+    <script>
+    function playWow()
+    {
+        var random = Math.random();
+        var audio;
+        if(random > 0.5) audio = new Audio('wow.wav');
+        else audio = new Audio('WOW!.wav');
+        audio.play();
+    }
+    </script>
+</html>

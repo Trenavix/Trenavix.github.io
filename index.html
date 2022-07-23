@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
+    <script src="resources/jquery-3.6.0.js"></script>
+    <script> 
+    $(function()
+    {
+        $("#header").load("header.html"); //set the path to your header file
+    });
+    </script> 
     <head>
+    <div id="header"></div>
     <title>Trenavix's Site</title>
     <link rel="stylesheet" type="text/css" href="main.css">
     </head>
@@ -14,7 +22,7 @@
             <div class="node">
                 A 3D Audio Visualiser written in JS/WebGL<br>
                 <i>NOTE: iOS does <u>not</u> support WebAudio API at this moment.</i><br>
-                <a href="av/">WebApp</a> &bull;
+                <a href="./audio3d/">WebApp</a> &bull;
                 <a href="https://github.com/trenavix/audio3d">Github</a>
                 <br>
                 <img style="width: 70%; height: auto;" src="files/preview_audio3d.png">
@@ -37,14 +45,14 @@
                 <img style="width: 70%; height: auto;" src="files/preview_bk2bt.png">
             </div>
             <div class="background">
-                <canvas id="canvas" style='position:fixed; left:0px; top:0px; z-index: -1;'>
-                    <script src="av/dependencies/functions.js"></script>
-                    <script src="av/dependencies/gl-matrix.js"></script>
+                <canvas id="canvas">
+                    <script src="resources/gl-matrix.js"></script>
+                    <script src="resources/functions.js"></script>
                     <script src="https://webglfundamentals.org/webgl/resources/m4.js"></script>
                     <script src="resources/particle.js"></script> 
                     <script src="resources/matrixStack.js"></script>    
                     <script src="background.js"></script>
-                    <script src="shadersAndBuffers.js"></script>
+                    <script src="resources/shadersAndBuffers.js"></script>
                     <script>background();</script>
                 </canvas>
             </div>

@@ -1,3 +1,19 @@
+var faderVertices = 
+[	//X, Y, Z			R, G, B, A
+	0.0, 0.0, 0.0,		1.0, 1.0, 1.0, 1.0,
+	1.0, 1.0, 0.0,		1.0, 1.0, 1.0, 0.0,
+	-1.0, 1.0, 0.0,		1.0, 1.0, 1.0, 0.0,
+	-1.0, -1.0, 0.0,	1.0, 1.0, 1.0, 0.0,
+	1.0, -1.0, 0.0,		1.0, 1.0, 1.0, 0.0,
+]
+var faderIndices = 
+[
+	0, 1, 2, //two upper
+	0, 2, 3, //upleft, lowleft
+	0, 3, 4, //lowleft, lowright
+	0, 4, 1 //lowright, upright
+]
+
 var returnRandomDestination = function(length)
 {
         

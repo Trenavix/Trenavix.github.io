@@ -20,8 +20,7 @@ var mp3s =
   "songs/derelicts.mp3", 
   "songs/luv_letter.mp3", 
   "songs/royksopp_senior.mp3", 
-  "songs/royksopp_tricky.mp3", 
-  "songs/scarletforest.mp3"
+  "songs/royksopp_tricky.mp3"
 ];
 var currentMP3 = mp3s.length-1; //start index at first mp3
 var currentAudio = document.getElementById("htmlaudio"); //get audio/controls

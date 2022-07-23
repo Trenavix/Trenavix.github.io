@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <script src="https://trenavix.com/resources/jquery.js"></script>
+        <script src="resources/jquery-3.6.0.js"></script>
         <script>
             $(function(){ $("#headerContent").load("../header.html"); });
         </script> 
@@ -12,7 +12,7 @@
     </head>
     <body id="body">
     <div id="contentDiv" class="content">
-        <a href="https://trenavix.com/emoto/1.0">
+        <a href="./1.0">
             <div class="subheading"><br></div>
             <div class="title"><b>Gen1</b></br></div>
             <div class="node">
@@ -24,7 +24,7 @@
         </a>
     </div>
     <div id="contentDiv2" class="content2">
-        <a href="https://trenavix.com/emoto/2.0">
+        <a href="./2.0">
             <div class="subheading"><br></div>
             <div class="title"><b>Gen2</b></br></div>
             <div class="node">
@@ -37,13 +37,13 @@
     </div>
     <div class="background">
                 <canvas id="canvas">
-                    <script src="../audio3d/dependencies/gl-matrix.js"></script>
-                    <script src="../audio3d/dependencies/functions.js"></script>
+                    <script src="../resources/gl-matrix.js"></script>
+                    <script src="../resources/functions.js"></script>
                     <script src="https://webglfundamentals.org/webgl/resources/m4.js"></script>
                     <script src="../resources/particle.js"></script> 
                     <script src="../resources/matrixStack.js"></script>    
                     <script src="../background.js"></script>
-                    <script src="../shadersAndBuffers.js"></script>
+                    <script src="../resources/shadersAndBuffers.js"></script>
                     <script>background();</script>
                 </canvas>   
     </body>

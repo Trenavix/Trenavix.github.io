@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+    <script src="../../resources/jquery-3.6.0.js"></script>
+    <script>
+        $(function(){ $("#headerContent").load("../../header.html"); });
+    </script> 
+    <div id="headerContent"></div>
+    <title>Trenavix's Site</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    </head>
+    <body id="body">
+    <div id="contentDiv" class="content">
+        <div class="subheading"><br><br></div>
+        <div class="title"><b>Electric Motorcycle Building:</br>Generation III</b><hr></div>
+        <div class="node">
+            <div class="subheading"><u>Combining the best of Gen1 and Gen2</u></div>
+            <div class="bodytext"><br>
+                Gen2 was a large experiment, and its R&D was rough.<br>
+                It was a more powerful, heavier bike with sporty components like the brembo brakes and 600A controller.<br>
+                The stealth bomber frame struggled with the components - it bent and cracked from the hardcore braking and wheelies.<br>
+                I had to figure out how to combine the reliability of Gen1 with the power of Gen2.<br><hr>
+                After moving back to Cali from Finland, I immediately fitted Gen1 with some vital components, like the CT-22 Dashboard.<br>
+                <img style="width: 50%; height: auto;" src="ct22.jpg"><br>
+                When deciding to move to Washington State, I decided to gut Gen2 entirely into parts - and keep Gen1 ("Ol reliable") intact.<br>
+                I fitted 2x 72v "cargo packs" into parallel for it to be used.. Said cargo packs were meant for Gen2's pannier bags, but Gen1 needed some battery for a bit.<br>
+                Once the move was complete, I knew that I would be salvaging several high-end parts from Gen2 and morphing them into Gen1 - properly.<br>
+                <img style="width: 75%; height: auto;" src="gen2_gutted.jpg"><br>
+                The move was complete. This is truly all man needs in life:<br>
+                <img style="width: 75%; height: auto;" src="newapartment.jpg"><br>
+                Jokes aside, I knew I had a lot of work to do (on the side of now working as a technician).<br>
+                The battery on Gen2 was an IED built by UPP that I tried to improve with updated lead wiring (2AWG) and an ANT BMS.<br>
+                Still, some cells were fried by then and it was just a terrible idea to have 400 cells in a single pack. They were good cells though, Samsung 35E's.<br>
+                After getting settled, I ripped apart the 400 cell battery pack and tested all cells for the ones with best IRs (after a bit of charging on all individually).<br>
+                <img style="width: 75%; height: auto;" src="upp_20s20p.jpg"><br>
+                <img style="width: 75%; height: auto;" src="cell_testing.jpg"><br>
+                I found that, if not grinding the sides off of the bomber frame (after Gen2, I recommend NOT grinding sides off - it hurts stability), I could fit a maximum of 360 cells in the frame if going with 20s. Which is 18p.<br>
+                <img style="width: 75%; height: auto;" src="subpacks.jpg"><br>
+                <img style="width: 75%; height: auto;" src="subpacks_2.jpg"><br>
+                Many months of slow work and eventually I built it. 3 sub-packs wired in series with external BMS on top. Everything fit exactly as planned, and was definitely a hard cram.<br>
+                <img style="width: 75%; height: auto;" src="subpacks_3.jpg"><br>
+                <img style="width: 75%; height: auto;" src="battery_in_bike.jpg"><br>
+                I then used the cargo packs exactly as planned, in panniers. Altogether, the bike is <b><u>20s28p, 7kWh</u></b>.<br>
+                It can push a maximum peak of <b>364A</b> (almost <b>28kW</b> with voltage sag)<br>
+                Of course, that meant I had to get this pic:<br>
+                <img style="width: 75%; height: auto;" src="wheelietime.jpg"><br>
+                October 2023, I registered my motorcycle. I rode it to Washington State Patrol in Marysville, and they did a VIN inspection, and granted my bomber a VIN plate.<br>
+                I could then take it to the DOL and it was granted a plate, after I showed all my part invoices. Insurance through Progressive is $75/year.<br>
+                One of the bigger reasons I decided to plate it was because I frequently rode over the US/Canadian border, and got some raised eyebrows.<br>
+                <img style="width: 75%; height: auto;" src="vinplate.jpg"><br>
+
+                Here is a small gallery of some adventuring I did on it at this point between WA and BC, Canada:<br>
+                
+                <img style="width: 75%; height: auto;" src="rainier.jpg"><br>
+                Paradise, Mt Rainier, WA<br>
+                <img style="width: 75%; height: auto;" src="vancouver.jpg"><br>
+                Vancouver, BC, Canada<br>
+                <img style="width: 75%; height: auto;" src="victoria_shore.jpg"><br>
+                Victoria, BC, Canada (Looking toward WA)<br>
+                <img style="width: 75%; height: auto;" src="northcascades.jpg"><br>
+                Diablo, North Cascades, WA<br>
+                <img style="width: 75%; height: auto;" src="SpadaLake.jpg"><br>
+                Spada Lake, WA<br>
+                <img style="width: 75%; height: auto;" src="centralcascades.jpg"><br>
+                <img style="width: 75%; height: auto;" src="roadtowallacelake2.jpg"><br>
+                Central Cascades, WA (Near Wallace Falls)<br>
+                <img style="width: 75%; height: auto;" src="centralcascades2.jpg"><br>
+                Central Cascades, WA (Near Index)<br>
+                <img style="width: 75%; height: auto;" src="horseshoebay.jpg"><br>
+                Horseshoe Bay, BC, Canada<br>
+                <img style="width: 75%; height: auto;" src="portangeles.jpg"><br>
+                Port Angeles, WA (Looking toward Victoria, BC)<br>
+                <img style="width: 75%; height: auto;" src="harrisonlake.jpg"><br>
+                Harrison Lake, BC, Canada (Cascade Peninsula)<br><br><br>
+                
+                <div class="subheading"><u>Eventual repairs / upgrades:</u></div>
+                I modded the QS273 motor in many ways. I had 3 different motors with different windings, and swapped stators.<br>
+                One of these stators had a winding for high RPM, which allowed me to up my speed to <b>140km/h</b>.
+                A reccurring issue was that the permanent magnets on the rotor would rust from water intrusion, and the rust-water would kill the hall sensors.<br>
+                <img style="width: 75%; height: auto;" src="gearpuller.jpg"><br>
+                <img style="width: 75%; height: auto;" src="hallsensors.jpg"><br>
+                After replacing the halls 3 times, I decided to coat the entire stator and rotor magnets in EL600 insulating varnish.<br>
+                <img style="width: 75%; height: auto;" src="varnishcoating.jpg"><br>
+                A year later, after riding through several extreme rainstorms, this varnish is absolutely working!<br><br><br>
+
+                Another eventual upgrade was custom-fabricating a second brake calliper mount for <b>dual brake rotors</b>.<br>This improved braking a <i>lot</i>, and was vital for riding with a passenger.<br>
+                <img style="width: 50%; height: auto;" src="secondbrakecalliper.jpg"><br><br>
+
+                A few other eventual upgrades included:<br>reinforced pannier brackets, a stiffer coil for the DNM-USD8 fork (huge improvement!), and various frame reinforcements custom welded by a friend in Skagit.<br><br>
+
+                As of Feb 2025, the bike has nearly 43000km on the odometer and I expect the battery to surpass 80000km before considering a replacement.<br>
+                <br>
+                Here's a walk-around video as of August 2024: <br>
+                <div class="video-container">
+                    <iframe class="video" allowfullscreen
+                    src="https://www.youtube.com/embed/NIRvh80P91w">
+                    </iframe>
+                </div>
+                <br>
+
+            </div>
+            <div class="background">
+                <canvas id="canvas">
+                    <script src="../../resources/gl-matrix.js"></script>
+                    <script src="../../resources/functions.js"></script>
+                    <script src="https://webglfundamentals.org/webgl/resources/m4.js"></script>
+                    <script src="../../resources/particle.js"></script> 
+                    <script src="../../resources/matrixStack.js"></script>    
+                    <script src="../../background.js"></script>
+                    <script src="../../resources/shadersAndBuffers.js"></script>
+                    <script>background();</script>
+                </canvas>
+            </div>
+        </div>   
+    </body>
+</html>
